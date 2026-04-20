@@ -1,7 +1,7 @@
 import { useState, useTransition, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from './utils/cn';
-
+import { photos } from './utils/imageLoader';
 interface Asset {
   id: number;
   url: string;
@@ -13,28 +13,34 @@ interface Asset {
   city: 'gomel' | 'rechitsa';
 }
 
+// Генерируем объекты на основе реальных фото из папок
 const assets: Asset[] = [
-  { id: 1, url: 'https://picsum.photos/id/1015/800/600', title: 'Central Plaza', location: 'Sovetskaya St', size: '24,800 m²', yield: '8.9%', occupancy: '100%', city: 'gomel' },
-  { id: 2, url: 'https://picsum.photos/id/160/800/900', title: 'Riverfront Mall', location: 'Pr. Oktyabrya', size: '41,200 m²', yield: '9.4%', occupancy: '97%', city: 'gomel' },
-  { id: 3, url: 'https://picsum.photos/id/201/900/600', title: 'Tech Retail Hub', location: 'Gomel Park', size: '12,900 m²', yield: '10.1%', occupancy: '99%', city: 'gomel' },
-  { id: 4, url: 'https://picsum.photos/id/211/700/800', title: 'Metro Station Retail', location: 'Lenina Ave', size: '18,450 m²', yield: '7.8%', occupancy: '95%', city: 'gomel' },
-  { id: 5, url: 'https://picsum.photos/id/29/850/650', title: 'Luxury Fashion Corner', location: 'Kirov St', size: '9,300 m²', yield: '11.2%', occupancy: '100%', city: 'gomel' },
-  { id: 6, url: 'https://picsum.photos/id/30/800/700', title: 'Industrial Park Outlets', location: 'Gomel Industrial', size: '67,000 m²', yield: '6.9%', occupancy: '92%', city: 'gomel' },
-  { id: 7, url: 'https://picsum.photos/id/133/900/550', title: 'Gomel Arena Plaza', location: 'Victory Square', size: '15,600 m²', yield: '9.7%', occupancy: '98%', city: 'gomel' },
-  { id: 8, url: 'https://picsum.photos/id/251/650/850', title: 'High Street Flagship', location: 'Pushkina Blvd', size: '8,200 m²', yield: '12.4%', occupancy: '100%', city: 'gomel' },
-  
-  { id: 9, url: 'https://picsum.photos/id/1016/800/600', title: 'Rechitsa Gateway', location: 'Central Ave', size: '31,500 m²', yield: '8.4%', occupancy: '96%', city: 'rechitsa' },
-  { id: 10, url: 'https://picsum.photos/id/180/900/650', title: 'Dnieper Retail Park', location: 'River District', size: '52,100 m²', yield: '7.6%', occupancy: '94%', city: 'rechitsa' },
-  { id: 11, url: 'https://picsum.photos/id/201/750/850', title: 'Rechitsa Power Center', location: 'Industrial Zone', size: '28,400 m²', yield: '9.1%', occupancy: '99%', city: 'rechitsa' },
-  { id: 12, url: 'https://picsum.photos/id/316/800/500', title: 'Market Square Complex', location: 'Lenin Square', size: '14,800 m²', yield: '10.5%', occupancy: '97%', city: 'rechitsa' },
-  { id: 13, url: 'https://picsum.photos/id/340/650/750', title: 'Logistics Retail Hub', location: 'Highway 1', size: '44,000 m²', yield: '8.2%', occupancy: '93%', city: 'rechitsa' },
-  { id: 14, url: 'https://picsum.photos/id/366/850/600', title: 'City Center Boutique', location: 'Sovetskaya', size: '6,900 m²', yield: '13.1%', occupancy: '100%', city: 'rechitsa' },
-  { id: 15, url: 'https://picsum.photos/id/201/900/700', title: 'Rechitsa Lifestyle Center', location: 'Park District', size: '22,300 m²', yield: '9.8%', occupancy: '98%', city: 'rechitsa' },
+  ...photos.gomel.map((url, index) => ({
+    id: index + 1,
+    url: url,
+    title: `Gomel Property ${index + 1}`,
+    location: 'Premium Zone',
+    size: `${(Math.random() * 20 + 5).toFixed(1)}k m²`,
+    yield: `${(Math.random() * 4 + 7).toFixed(1)}%`,
+    occupancy: '100%',
+    city: 'gomel' as const,
+  })),
+  ...photos.rechitsa.map((url, index) => ({
+    id: photos.gomel.length + index + 1,
+    url: url,
+    title: `Rechitsa Object ${index + 1}`,
+    location: 'Strategic Corridor',
+    size: `${(Math.random() * 15 + 3).toFixed(1)}k m²`,
+    yield: `${(Math.random() * 5 + 6).toFixed(1)}%`,
+    occupancy: '98%',
+    city: 'rechitsa' as const,
+  })),
 ];
 
+// Счетчики теперь подтягиваются автоматически
 const locations = [
-  { id: 'gomel', name: 'Gomel', count: 52, color: '#22c55e' },
-  { id: 'rechitsa', name: 'Rechitsa', count: 47, color: '#a78bfa' },
+  { id: 'gomel', name: 'Gomel', count: photos.gomel.length, color: '#22c55e' },
+  { id: 'rechitsa', name: 'Rechitsa', count: photos.rechitsa.length, color: '#a78bfa' },
 ];
 
 const InfoCard = memo(({ title, metric, desc, index }: { 
