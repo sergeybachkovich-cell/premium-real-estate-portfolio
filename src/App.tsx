@@ -1,7 +1,10 @@
 import { useState, useTransition, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from './utils/cn';
+
 import { photos } from './utils/imageLoader';
+import { portfolioContent, uiStrings, infoCardsData, infoSection } from './utils/contentConfig';
+
 interface Asset {
   id: number;
   url: string;
@@ -13,34 +16,13 @@ interface Asset {
   city: 'gomel' | 'rechitsa';
 }
 
-// Генерируем объекты на основе реальных фото из папок
-const assets: Asset[] = [
-  ...photos.gomel.map((url, index) => ({
-    id: index + 1,
-    url: url,
-    title: `Gomel Property ${index + 1}`,
-    location: 'Premium Zone',
-    size: `${(Math.random() * 20 + 5).toFixed(1)}k m²`,
-    yield: `${(Math.random() * 4 + 7).toFixed(1)}%`,
-    occupancy: '100%',
-    city: 'gomel' as const,
-  })),
-  ...photos.rechitsa.map((url, index) => ({
-    id: photos.gomel.length + index + 1,
-    url: url,
-    title: `Rechitsa Object ${index + 1}`,
-    location: 'Strategic Corridor',
-    size: `${(Math.random() * 15 + 3).toFixed(1)}k m²`,
-    yield: `${(Math.random() * 5 + 6).toFixed(1)}%`,
-    occupancy: '98%',
-    city: 'rechitsa' as const,
-  })),
-];
 
-// Счетчики теперь подтягиваются автоматически
+
+
+// Не забудь обновить массив locations для шапки
 const locations = [
-  { id: 'gomel', name: 'Gomel', count: photos.gomel.length, color: '#22c55e' },
-  { id: 'rechitsa', name: 'Rechitsa', count: photos.rechitsa.length, color: '#a78bfa' },
+  { id: 'gomel', name: 'Гомель', count: photos.gomel.length, color: '#22c55e' },
+  { id: 'rechitsa', name: 'Речица', count: photos.rechitsa.length, color: '#a78bfa' },
 ];
 
 const InfoCard = memo(({ title, metric, desc, index }: { 
@@ -142,7 +124,7 @@ const GalleryItem = memo(({
           </div>
           <div className="text-right">
             <div className="text-4xl font-bold text-white tabular-nums">{asset.yield}</div>
-            <div className="text-[10px] text-white/60 -mt-1">YIELD</div>
+            <div className="text-[10px] text-white/60 -mt-1">{uiStrings.gallery.metrics.yield.toUpperCase()}</div>
           </div>
         </div>
       </div>
@@ -156,6 +138,38 @@ const GalleryItem = memo(({
 });
 
 function App() {
+const assets: Asset[] = useMemo(() => {
+  const generate = (city: 'gomel' | 'rechitsa', photosArray: string[]) => {
+    const config = portfolioContent[city];
+    
+    return photosArray.map((url, index) => {
+      // Ищем описание в новом массиве
+      const descText = config.descriptions && config.descriptions[index] 
+        ? config.descriptions[index] 
+        : `Объект ${index + 1}`; // Заглушка, если в массиве меньше 79/17 строк
+
+      return {
+        id: city === 'gomel' ? index + 1 : photos.gomel.length + index + 1,
+        url,
+        title: config.mainStore.toUpperCase(),
+        // ТЕПЕРЬ ТУТ ТОЛЬКО ОПИСАНИЕ (Фото 1, Фото 2...)
+        location: descText, 
+        size: city === 'gomel' ? "2.3 тыс. м²" : "1.8 тыс. м²",
+        yield: `${config.yieldRange[0]}% - ${config.yieldRange[1]}%`,
+        occupancy: city === 'gomel' ? "100%" : "98%",
+        city: city,
+      };
+    });
+  };
+
+  const combined = [
+    ...generate('gomel', photos.gomel),
+    ...generate('rechitsa', photos.rechitsa)
+  ];
+
+  return combined.sort(() => Math.random() - 0.5);
+}, []);
+
   const [currentCity, setCurrentCity] = useState<'gomel' | 'rechitsa'>('gomel');
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
@@ -180,28 +194,14 @@ function App() {
     setHoveredId(id);
   }, []);
 
-  const infoCards = [
-    {
-      title: "GOMEL",
-      metric: "52",
-      desc: "Strategically located in the heart of Belarus' second largest city. High density population and strong purchasing power.",
-    },
-    {
-      title: "RECHITSA",
-      metric: "47",
-      desc: "Rapidly expanding industrial and logistics corridor. Direct access to major transport arteries and growing consumer base.",
-    },
-    {
-      title: "OCCUPANCY",
-      metric: "97%",
-      desc: "Industry-leading tenant retention. Blue-chip retailers including international fashion, electronics and F&B leaders.",
-    },
-    {
-      title: "YIELD",
-      metric: "9.4",
-      desc: "Superior risk-adjusted returns. Our portfolio consistently outperforms national benchmarks by 240 basis points.",
-    },
-  ];
+  const infoCards = useMemo(() => {
+  // Мы просто мапим массив из конфига, не подставляя туда диапазоны вручную
+  return infoCardsData.map((card) => ({
+    title: card.title.toUpperCase(),
+    metric: card.metric,
+    desc: card.desc
+  }));
+  }, []); // Если данные статичны, зависимости не нужны
 
   return (
     <div className="bg-[#000000] text-white overflow-x-hidden">
@@ -213,8 +213,8 @@ function App() {
               <span className="text-black text-[18px] font-bold tracking-tighter">V</span>
             </div>
             <div>
-              <div className="font-semibold tracking-[-1px] text-2xl">VISTA</div>
-              <div className="text-[10px] text-white/40 -mt-1.5">RETAIL HOLDINGS</div>
+              <div className="font-semibold tracking-[-1px] text-2xl">{uiStrings.header.logo}</div>
+              <div className="text-[10px] text-white/40 -mt-1.5">{uiStrings.header.tagline}</div>
             </div>
           </div>
 
@@ -375,13 +375,13 @@ function App() {
                 "px-5 py-2 rounded-3xl transition-colors cursor-pointer",
                 currentCity === 'gomel' ? 'bg-white text-black' : 'glass'
               )} onClick={() => handleCityChange('gomel')}>
-                GOMEL
+                {portfolioContent.gomel.name.toUpperCase()}
               </div>
               <div className={cn(
                 "px-5 py-2 rounded-3xl transition-colors cursor-pointer",
                 currentCity === 'rechitsa' ? 'bg-white text-black' : 'glass'
               )} onClick={() => handleCityChange('rechitsa')}>
-                RECHITSA
+                {portfolioContent.rechitsa.name.toUpperCase()}
               </div>
               <div className="pl-8 text-xs text-white/40 font-light max-w-[210px] leading-tight">
                 HOVER TO SPOTLIGHT.<br />CLICK TO VIEW DETAILS
@@ -425,7 +425,7 @@ function App() {
                   DELIVERING<br />INSTITUTIONAL<br />GRADE RETURNS
                 </h3>
                 <p className="text-white/60 text-2xl max-w-sm">
-                  Every asset in the VISTA portfolio is selected for its ability to generate both immediate cashflow and capital appreciation.
+                  Every asset in the {uiStrings.header.logo} portfolio is selected for its ability to generate both immediate cashflow and capital appreciation.
                 </p>
                 
                 <motion.button 
@@ -477,13 +477,13 @@ function App() {
             <div>
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-8 h-8 bg-white text-black rounded-2xl flex items-center justify-center font-bold">V</div>
-                <div className="text-4xl font-semibold tracking-tight">VISTA RETAIL</div>
+                <div className="text-4xl font-semibold tracking-tight">{uiStrings.header.logo} RETAIL</div>
               </div>
               <div className="text-white/40 max-w-xs">
                 Premium commercial real estate operator with a focus on high quality retail environments in Eastern Europe.
               </div>
               
-              <div className="mt-auto pt-16 text-xs text-white/30 font-mono">© 2026 VISTA HOLDINGS LTD. ALL RIGHTS RESERVED.</div>
+              <div className="mt-auto pt-16 text-xs text-white/30 font-mono">© 2026 {uiStrings.header.logo} HOLDINGS LTD. ALL RIGHTS RESERVED.</div>
             </div>
 
             <div className="grid grid-cols-3 gap-x-16 text-sm">
@@ -499,7 +499,7 @@ function App() {
               <div>
                 <div className="font-medium mb-6 text-white/70">CONTACT</div>
                 <div className="space-y-4 text-white/60">
-                  <div>invest@vistasites.com</div>
+                  <div>invest@{uiStrings.header.logo}sites.com</div>
                   <div>+375 29 188 44 22</div>
                   <div>Minsk, Belarus</div>
                 </div>
@@ -516,7 +516,7 @@ function App() {
           </div>
           
           <div className="mt-20 pt-8 border-t border-white/10 text-center text-xs tracking-widest text-white/30">
-            A DIGITAL EXPERIENCE BY VISTA — CRAFTED FOR MAXIMUM IMPACT AND MINIMAL NOISE
+            A DIGITAL EXPERIENCE BY {uiStrings.header.logo} — CRAFTED FOR MAXIMUM IMPACT AND MINIMAL NOISE
           </div>
         </div>
       </footer>
@@ -561,7 +561,7 @@ function App() {
                       <div className="text-right font-semibold text-3xl tabular-nums">{selectedAsset.size}</div>
                     </div>
                     <div className="flex justify-between border-b border-white/10 pb-6">
-                      <div className="text-white/60">NET YIELD</div>
+                      <div className="text-white/60">NET {uiStrings.gallery.metrics.yield.toUpperCase()}</div>
                       <div className="text-right font-semibold text-3xl text-emerald-400">{selectedAsset.yield}</div>
                     </div>
                     <div className="flex justify-between border-b border-white/10 pb-6">

@@ -15,6 +15,8 @@ const getSortedImages = (modules: Record<string, any>) => {
     });
 };
 
+// ... твой код выше без изменений ...
+
 export const gomelImages = getSortedImages(gomelModules);
 export const rechitsaImages = getSortedImages(rechitsaModules);
 
