@@ -108,3 +108,11 @@ export const infoSection = {
   }
 };
 
+export const numbersSection = {
+  chapter: "CHAPTER 02 • THE NUMBERS",
+  title: "A PORTFOLIO\nTHAT PERFORMS", // Добавил перенос строки через \n
+  subtitle: "Our layered insights reveal the strength of our holdings. Each card represents a fundamental pillar of value.",
+  buttonText: "VIEW REPORT",
+  scrollLabel: "SCROLL TO LAYER →"
+};
+

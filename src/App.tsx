@@ -5,6 +5,10 @@ import { cn } from './utils/cn';
 import { photos } from './utils/imageLoader';
 import { portfolioContent, uiStrings, infoCardsData, infoSection } from './utils/contentConfig';
 
+
+// components
+import { NumbersSection } from './components/NumbersSection';
+
 interface Asset {
   id: number;
   url: string;
@@ -25,47 +29,7 @@ const locations = [
   { id: 'rechitsa', name: 'Речица', count: photos.rechitsa.length, color: '#a78bfa' },
 ];
 
-const InfoCard = memo(({ title, metric, desc, index }: { 
-  title: string; 
-  metric: string; 
-  desc: string; 
-  index: number;
-}) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0.6, y: 40, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay: index * 0.1 }}
-      className={cn(
-        "sticky-layer glass rounded-3xl p-10 shadow-2xl",
-        "border border-white/10"
-      )}
-      style={{ 
-        top: `${90 + index * 35}px`,
-        transformOrigin: 'top center'
-      }}
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-emerald-400 text-sm tracking-[3px] font-mono mb-3">0{index + 1}</div>
-          <h3 className="text-5xl font-semibold tracking-tighter text-white mb-4">{title}</h3>
-          <div className="text-[92px] font-bold leading-none text-white/90 tracking-[-6px] mb-6">{metric}</div>
-        </div>
-        <div className="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10">
-          <span className="text-4xl">📍</span>
-        </div>
-      </div>
-      <p className="text-white/70 text-xl leading-tight max-w-md">{desc}</p>
-      
-      <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between text-sm">
-        <div className="flex items-center gap-3">
-          <div className="px-4 py-1.5 rounded-full bg-white/5 text-white/70">VIEW REPORT</div>
-        </div>
-        <div className="text-white/40 font-mono text-xs">SCROLL TO LAYER →</div>
-      </div>
-    </motion.div>
-  );
-});
+// infocard component
 
 const GalleryItem = memo(({ 
   asset, 
@@ -152,7 +116,6 @@ const assets: Asset[] = useMemo(() => {
         id: city === 'gomel' ? index + 1 : photos.gomel.length + index + 1,
         url,
         title: config.mainStore.toUpperCase(),
-        // ТЕПЕРЬ ТУТ ТОЛЬКО ОПИСАНИЕ (Фото 1, Фото 2...)
         location: descText, 
         size: city === 'gomel' ? "2.3 тыс. м²" : "1.8 тыс. м²",
         yield: `${config.yieldRange[0]}% - ${config.yieldRange[1]}%`,
@@ -193,15 +156,6 @@ const assets: Asset[] = useMemo(() => {
   const handleHover = useCallback((id: number | null) => {
     setHoveredId(id);
   }, []);
-
-  const infoCards = useMemo(() => {
-  // Мы просто мапим массив из конфига, не подставляя туда диапазоны вручную
-  return infoCardsData.map((card) => ({
-    title: card.title.toUpperCase(),
-    metric: card.metric,
-    desc: card.desc
-  }));
-  }, []); // Если данные статичны, зависимости не нужны
 
   return (
     <div className="bg-[#000000] text-white overflow-x-hidden">
@@ -334,33 +288,8 @@ const assets: Asset[] = useMemo(() => {
         </div>
       </div>
 
-      {/* INFO SECTION - LAYERING STICKY */}
-      <div id="info" className="relative min-h-[280vh] bg-black py-24">
-        <div className="max-w-screen-2xl mx-auto px-10 sticky top-24">
-          <div className="flex justify-between items-baseline mb-16">
-            <div>
-              <div className="font-mono text-xs text-emerald-400">CHAPTER 02 • THE NUMBERS</div>
-              <h2 className="text-7xl font-semibold tracking-tighter">A PORTFOLIO<br />THAT PERFORMS</h2>
-            </div>
-            <div className="max-w-xs text-lg text-white/50">
-              Our layered insights reveal the strength of our holdings. Each card represents a fundamental pillar of value.
-            </div>
-          </div>
-
-          <div className="relative h-[1200px]">
-            {infoCards.map((card, index) => (
-              <InfoCard 
-                key={index}
-                title={card.title}
-                metric={card.metric}
-                desc={card.desc}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
+      {/* NumbersSection - LAYERING STICKY */}
+      <NumbersSection />
       {/* GALLERY SECTION */}
       <div id="gallery" className="bg-zinc-950 py-20 relative">
         <div className="max-w-screen-2xl mx-auto px-10">
