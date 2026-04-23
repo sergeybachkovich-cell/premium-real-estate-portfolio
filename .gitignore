@@ -3,9 +3,9 @@ node_modules/
 .pnpm-store/
 
 # Сборка
-dist/
-dist-ssr/
-*.local
+#dist/
+#dist-ssr/
+#*.local
 
 # Логи и кэш
 npm-debug.log*

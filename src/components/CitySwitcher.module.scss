@@ -1,0 +1,49 @@
+.citySwitcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.citySwitcher--compact {
+  width: 100%;
+}
+
+.citySwitcher__button {
+  border: 0;
+  min-height: 2.75rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.citySwitcher__button:hover {
+  color: var(--color-text);
+}
+
+.citySwitcher__button--active {
+  background: #f4f7f3;
+  color: #09110d;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .citySwitcher,
+  .citySwitcher--compact {
+    width: 100%;
+  }
+
+  .citySwitcher__button {
+    flex: 1 1 50%;
+    padding-inline: 1rem;
+  }
+}

@@ -1,7 +1,7 @@
 // @ts-ignore
-const gomelModules = import.meta.glob('@/assets/images/gomel/*.webp', { eager: true });
+const gomelModules = import.meta.glob('/src/assets/images/gomel/*.webp', { eager: true });
 // @ts-ignore
-const rechitsaModules = import.meta.glob('@/assets/images/rechitsa/*.webp', { eager: true });
+const rechitsaModules = import.meta.glob('/src/assets/images/rechitsa/*.webp', { eager: true });
 
 const getSortedImages = (modules: Record<string, any>) => {
   return Object.values(modules)
@@ -14,13 +14,9 @@ const getSortedImages = (modules: Record<string, any>) => {
       return getNum(a) - getNum(b);
     });
 };
-
-// ... твой код выше без изменений ...
-
 export const gomelImages = getSortedImages(gomelModules);
 export const rechitsaImages = getSortedImages(rechitsaModules);
 
-// ЗАМЕНИ allLocations на photos
 export const photos = {
   gomel: gomelImages,
   rechitsa: rechitsaImages
