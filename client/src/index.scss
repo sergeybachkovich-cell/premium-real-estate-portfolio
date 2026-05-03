@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=VT323&display=swap');
+
+:root {
+  color-scheme: dark;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --font-heading: 'VT323', monospace;
+  --font-body: 'JetBrains Mono', monospace;
+  --container-width: 1440px;
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --pixel-border: 3px solid var(--color-border-strong);
+  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.24);
+  --shadow-pixel: 6px 6px 0 rgba(0, 0, 0, 0.25);
+}
+
+:root,
+:root[data-theme='dark'] {
+  --color-bg: #050505;
+  --color-bg-secondary: #0d1210;
+  --color-surface: rgba(18, 24, 21, 0.76);
+  --color-surface-strong: rgba(24, 30, 26, 0.9);
+  --color-border: rgba(151, 255, 194, 0.18);
+  --color-border-strong: #47c97d;
+  --color-text: #edfdf2;
+  --color-text-muted: rgba(237, 253, 242, 0.72);
+  --color-text-soft: rgba(237, 253, 242, 0.52);
+  --color-accent: #5eff8f;
+  --color-accent-strong: #b7ffc7;
+  --color-page:
+    radial-gradient(circle at top, rgba(94, 255, 143, 0.16), transparent 30%),
+    linear-gradient(180deg, #0b0d0c 0%, #040505 60%, #020202 100%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #efe4c8;
+  --color-bg-secondary: #dfd0aa;
+  --color-surface: rgba(255, 248, 230, 0.78);
+  --color-surface-strong: rgba(249, 238, 211, 0.96);
+  --color-border: rgba(93, 66, 40, 0.18);
+  --color-border-strong: #6b4c31;
+  --color-text: #2c1d10;
+  --color-text-muted: rgba(44, 29, 16, 0.76);
+  --color-text-soft: rgba(44, 29, 16, 0.56);
+  --color-accent: #8bb65f;
+  --color-accent-strong: #4e6d2e;
+  --color-page:
+    radial-gradient(circle at top, rgba(139, 182, 95, 0.2), transparent 28%),
+    linear-gradient(180deg, #f5ecd9 0%, #e8dbbb 56%, #dccda8 100%);
+  --shadow-soft: 0 24px 80px rgba(89, 64, 28, 0.14);
+  --shadow-pixel: 6px 6px 0 rgba(107, 76, 49, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--color-page);
+  color: var(--color-text);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
