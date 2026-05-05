@@ -50,42 +50,28 @@ export function Hero({ currentCity, onCityChange }: HeroProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(false);
-    setSubmitMessage('');
-
     try {
-      const response = await fetch(
-        `${mailConfig.endpoint}/${mailConfig.recipientEmail}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            name: formState.name,
-            email: formState.email,
-            phone: formState.phone,
-            message: formState.message,
-            city: siteContent.common.cityLabels[currentCity],
-            _subject: mailConfig.subject,
-            _template: mailConfig.template,
-            _captcha: String(mailConfig.captchaEnabled),
-            _replyto: formState.email,
-            [mailConfig.honeypotFieldName]: '',
-          }),
-        },
-      );
+      const response = await fetch('http://localhost:3000/api/order', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          phone: formState.phone,
+          toMake: formState.message,
+        }),
+      });
 
-      if (!response.ok) {
-        throw new Error('Request failed');
+      if (response.ok) {
+        setFormState(initialFormState);
+        setSubmitMessage('Заявка отправлена в ТГ');
+      } else {
+        throw new Error('Ошибка сервера');
       }
-
-      setFormState(initialFormState);
-      setSubmitMessage(siteContent.hero.form.successMessage);
-    } catch {
+    }
+    catch (error) {
       setSubmitError(true);
-      setSubmitMessage(siteContent.hero.form.errorMessage);
+      setSubmitMessage('Ошибка сервера!');
     } finally {
       setIsSubmitting(false);
     }

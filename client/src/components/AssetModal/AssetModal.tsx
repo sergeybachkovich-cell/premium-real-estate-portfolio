@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Product } from '../../types';
 import { siteContent } from '../../utils/contentConfig';
@@ -9,6 +10,50 @@ interface AssetModalProps {
 }
 
 export default function AssetModal({ asset, onClose }: AssetModalProps) {
+
+    // Имя: ${name}
+    //     Почта: ${email}
+    //     Телефон: ${phone}
+    //     Что хотели изготовить: ${toMake} 
+
+    // данные, отправляемые с формы
+    const [userName, serUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [telephone, setTelephone] = useState('');
+    const [toMake, setToMake] = useState('');
+
+  const handleInquire = async () => {
+    if(!asset) return;
+
+    const orderData = {
+      name: userName,
+      email: email,
+      telephone: telephone,
+      toMake: toMake,
+      // доп информация
+      city: siteContent.common.cityLabels[asset.city],
+      title: asset.title,
+      price: asset.price,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/api/order', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(orderData),
+      });
+      if (response.ok) {
+        alert('Заявка отправлена в Telegram!');
+        onClose(); // закрывает модалку
+      }
+    }
+    catch (error) {
+        console.error('Ошибка связи с сервером', error);
+        alert('Сервер бекенда не отвечает. Проверь терминал!');
+    }
+  };
+  //----------------------------
+
   return (
     <AnimatePresence>
       {asset ? (
@@ -54,9 +99,13 @@ export default function AssetModal({ asset, onClose }: AssetModalProps) {
                 <button type="button" onClick={onClose} className={styles.assetModal__button}>
                   {siteContent.modal.closeLabel}
                 </button>
-                <a href={siteContent.modal.inquireHref} className={styles.assetModal__buttonPrimary}>
+                {/* <a href={siteContent.modal.inquireHref} className={styles.assetModal__buttonPrimary}> */}
+                <button
+                type='button' onClick={handleInquire}
+                className={styles.assetModal__buttonPrimary}
+                >
                   {siteContent.modal.inquireLabel}
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>
