@@ -4,8 +4,8 @@ import { City } from '../../types';
 import { contactConfig } from '../../config/contactConfig';
 import { mailConfig } from '../../config/mailConfig';
 import { products } from '../../utils/storeData';
-import { siteContent } from '../../utils/contentConfig';
-import CitySwitcher from '../CitySwitcher/CitySwitcher';
+import { siteContent } from '../../config/contentConfig';
+import CitySwitcher from '../../ui/CitySwitcher/CitySwitcher';
 import styles from './Hero.module.scss';
 
 interface HeroProps {
@@ -51,7 +51,7 @@ export function Hero({ currentCity, onCityChange }: HeroProps) {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:3000/api/order', {
+      const response = await fetch('https://premium-real-estate-portfolio.onrender.com/api/order', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({

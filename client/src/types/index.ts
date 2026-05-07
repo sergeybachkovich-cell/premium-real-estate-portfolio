@@ -3,10 +3,22 @@ export type City = 'gomel' | 'rechitsa' | 'sublimation';
 /**
  * PrintingSection Types (поддержка readonly из as const)
  */
+export interface Asset {
+  id: number;
+  images: string[]; // Массив строк обязателен
+  title: string;
+  location: string;
+  size: string;
+  yield: string;
+  occupancy: string;
+  city: 'gomel' | 'rechitsa';
+}
+
 export interface PrintingFeature {
   id: string;
   label: string;
 }
+
 
 export interface PrintingImage {
   id: string;

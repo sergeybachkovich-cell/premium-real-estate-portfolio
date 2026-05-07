@@ -1,16 +1,14 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { photos } from '@/utils/imageLoader';
-import { portfolioContent, siteContent } from '../../../utils/contentConfig';
-import GalleryItem from '../../GalleryItem/GalleryItem';
-import CitySwitcher from '../../CitySwitcher/CitySwitcher';
-import SectionHeading from '../SectionHeading/SectionHeading';
+import { portfolioContent, siteContent } from '../../../config/contentConfig';
+import GalleryItem from '../../../ui/GalleryItem/GalleryItem';
+import CitySwitcher from '../../../ui/CitySwitcher/CitySwitcher';
+import SectionHeading from '../../../ui/SectionHeading/SectionHeading';
 import styles from './GallerySection.module.scss';
-import { Asset } from '../../../types';
-
+import { Asset, City } from '../../../types';
 interface GallerySectionProps {
-  currentCity: 'gomel' | 'rechitsa';
-  onCityChange: (city: 'gomel' | 'rechitsa') => void;
+  currentCity: City; // Было: 'gomel' | 'rechitsa'
+  onCityChange: (city: City) => void; // Было: 'gomel' | 'rechitsa'
   onAssetClick: (asset: Asset) => void;
 }
 
@@ -21,27 +19,27 @@ function GallerySection({
 }: GallerySectionProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
-  const allAssets: Asset[] = useMemo(() => {
-    const buildAssets = (city: 'gomel' | 'rechitsa', items: string[]) => {
-      const config = portfolioContent[city];
+const allAssets: Asset[] = useMemo(() => {
+  const buildFromServices = (city: 'gomel' | 'rechitsa') => {
+    const config = portfolioContent[city];
+    // Берем сервисы именно для этого города из твоего огромного объекта выше
+    const services = siteContent.printingSection.tabs[city].services;
 
-      return items.map((url, index) => ({
-        id: city === 'gomel' ? index + 1 : photos.gomel.length + index + 1,
-        url,
-        title: config.mainStore,
-        location: `${config.mainAddress} • ${config.descriptions[index] ?? `${siteContent.gallery.fallbackAssetLabel} ${index + 1}`}`,
-        size: config.defaultSize,
-        yield: `${config.yieldRange[0]}% - ${config.yieldRange[1]}%`,
-        occupancy: config.defaultOccupancy,
-        city,
-      }));
-    };
+    return services.map((service, index) => ({
+      id: city === 'gomel' ? index : 100 + index,
+      // Собираем все src из картинок сервиса в один массив для слайдера
+      images: service.images.map(img => img.src), 
+      title: service.name, // Теперь заголовок — это название услуги (напр. "Печать чертежей")
+      location: `${config.mainAddress} • ${service.description}`,
+      size: config.defaultSize,
+      yield: 'Premium Craft',
+      occupancy: config.defaultOccupancy,
+      city,
+    }));
+  };
 
-    return [
-      ...buildAssets('gomel', photos.gomel),
-      ...buildAssets('rechitsa', photos.rechitsa),
-    ];
-  }, []);
+  return [...buildFromServices('gomel'), ...buildFromServices('rechitsa')];
+}, []);
 
   const filteredAssets = useMemo(
     () => allAssets.filter((asset) => asset.city === currentCity),
@@ -53,13 +51,16 @@ function GallerySection({
       <div className={styles.gallery__container}>
         <div className={styles.gallery__header}>
           <SectionHeading
-            eyebrow={siteContent.gallery.eyebrow}
-            title={siteContent.gallery.title}
-            description={siteContent.gallery.description}
+            // Было: siteContent.gallery.eyebrow
+            eyebrow={siteContent.storeGallery.eyebrow} 
+            title={siteContent.storeGallery.title}
+            description={siteContent.storeGallery.description}
             align="between"
           />
-          <CitySwitcher currentCity={currentCity} onCityChange={onCityChange} />
-        </div>
+<CitySwitcher 
+  currentCity={currentCity} 
+  onCityChange={(city: City) => onCityChange(city)} 
+/>        </div>
 
         <div className={styles.gallery__grid}>
           <AnimatePresence mode="popLayout">

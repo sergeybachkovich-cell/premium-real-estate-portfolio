@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { City } from '../../../types';
 import { storePhotos } from '../../../utils/storeData';
-import { siteContent } from '../../../utils/contentConfig';
-import SectionHeading from '../SectionHeading/SectionHeading';
+import { siteContent } from '../../../config/contentConfig';
+import SectionHeading from '../../../ui/SectionHeading/SectionHeading';
 import styles from './StoreGallerySection.module.scss';
 
 export default function StoreGallerySection({ currentCity }: { currentCity: City }) {
@@ -11,6 +11,7 @@ export default function StoreGallerySection({ currentCity }: { currentCity: City
     () => storePhotos.filter((photo) => photo.city === currentCity),
     [currentCity],
   );
+  // функционал переключения групп картинок по фото
 
   return (
     <section id="store-gallery" className={styles.storeGallery}>
@@ -21,6 +22,7 @@ export default function StoreGallerySection({ currentCity }: { currentCity: City
           description={siteContent.storeGallery.description}
           align="between"
         />
+        
 
         <div className={styles.storeGallery__grid}>
           {filteredPhotos.map((photo, index) => (
@@ -45,8 +47,14 @@ export default function StoreGallerySection({ currentCity }: { currentCity: City
               </div>
             </motion.article>
           ))}
+          
         </div>
+        
       </div>
+      
+      {/* кнопка для перелистывания галереи */}
+      
+
     </section>
   );
 }

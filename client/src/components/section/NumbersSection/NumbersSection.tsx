@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { siteContent } from '../../../utils/contentConfig';
-import SectionHeading from '../SectionHeading/SectionHeading';
+import { siteContent } from '../../../config/contentConfig';
+import SectionHeading from '../../../ui/SectionHeading/SectionHeading';
 import styles from './NumbersSection.module.scss';
 
 const InfoCard = memo(

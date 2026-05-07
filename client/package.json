@@ -2,6 +2,7 @@
   "name": "premium-real-estate-portfolio",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://sergeybachkovich-cell.github.io/premium-real-estate-portfolio",
   "type": "module",
   "scripts": {
     "dev": "vite",

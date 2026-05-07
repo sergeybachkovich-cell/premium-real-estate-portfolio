@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Product } from '../../types';
-import { siteContent } from '../../utils/contentConfig';
+import { siteContent } from '../../config/contentConfig';
 import styles from './AssetModal.module.scss';
 
 interface AssetModalProps {
@@ -17,7 +17,7 @@ export default function AssetModal({ asset, onClose }: AssetModalProps) {
     //     Что хотели изготовить: ${toMake} 
 
     // данные, отправляемые с формы
-    const [userName, serUserName] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [telephone, setTelephone] = useState('');
     const [toMake, setToMake] = useState('');
@@ -26,10 +26,10 @@ export default function AssetModal({ asset, onClose }: AssetModalProps) {
     if(!asset) return;
 
     const orderData = {
-      name: userName,
-      email: email,
-      telephone: telephone,
-      toMake: toMake,
+      name,
+      email,
+      telephone,
+      toMake,
       // доп информация
       city: siteContent.common.cityLabels[asset.city],
       title: asset.title,

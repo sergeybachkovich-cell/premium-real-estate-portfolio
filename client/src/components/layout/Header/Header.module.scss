@@ -1,0 +1,122 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(18px);
+  background: color-mix(in srgb, var(--color-bg) 84%, transparent);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.header__brandBadge {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--pixel-border);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-pixel);
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  letter-spacing: 0.08em;
+}
+
+.header__brandText {
+  display: grid;
+}
+
+.header__brandName {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  line-height: 0.88;
+  letter-spacing: 0.08em;
+}
+
+.header__brandTagline {
+  color: var(--color-text-soft);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.header__nav {
+  justify-self: center;
+}
+
+.header__navList {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__navLink {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-soft);
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.8rem 1.2rem;
+  border: var(--pixel-border);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 82%, white 10%), var(--color-accent));
+  color: #071008;
+  box-shadow: var(--shadow-pixel);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+@media (max-width: 1180px) {
+  .header__container {
+    grid-template-columns: auto auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .header__container {
+    padding: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .header__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header__button {
+    width: 100%;
+  }
+}

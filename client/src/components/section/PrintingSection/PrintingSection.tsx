@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import s from './PrintingSection.module.scss';
-import { siteContent } from '@/utils/contentConfig';
+import { siteContent } from '@/config/contentConfig';
 import type { City } from '@/types';
 
 interface Props {

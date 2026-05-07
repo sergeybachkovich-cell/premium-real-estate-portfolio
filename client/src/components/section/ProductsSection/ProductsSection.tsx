@@ -2,10 +2,10 @@ import { useMemo, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { City, Product } from '../../../types';
 import { products } from '../../../utils/storeData';
-import { siteContent } from '../../../utils/contentConfig';
-import CitySwitcher from '../../CitySwitcher/CitySwitcher';
-import ProductCard from '../../ProductCard/ProductCard';
-import SectionHeading from '../SectionHeading/SectionHeading';
+import { siteContent } from '../../../config/contentConfig';
+import CitySwitcher from '../../../ui/CitySwitcher/CitySwitcher';
+import ProductCard from '../../../ui/ProductCard/ProductCard';
+import SectionHeading from '../../../ui/SectionHeading/SectionHeading';
 import styles from './ProductsSection.module.scss';
 
 interface ProductsSectionProps {
@@ -20,6 +20,8 @@ export default function ProductsSection({
   onProductClick,
 }: ProductsSectionProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [currentImageIdx, setCurrentImageIdx] = useState(0);
+  console.log("ГЛОБАЛЬНЫЙ ИНДЕКС:", currentImageIdx);
 
   const filteredProducts = useMemo(
     () => products.filter((product) => product.city === currentCity),
@@ -43,17 +45,26 @@ export default function ProductsSection({
           <AnimatePresence mode="popLayout">
             {filteredProducts.map((product, index) => (
               <ProductCard
-                key={product.id}
                 product={product}
                 index={index}
                 isDimmed={hoveredId !== null && hoveredId !== product.id}
                 onHover={setHoveredId}
                 onClick={() => onProductClick(product)}
+                key={product.id}
+                imageIdx={currentImageIdx}
               />
             ))}
           </AnimatePresence>
         </div>
       </div>
+
+      {/* кнопки перелистывания товаров */}
+      <div className={styles.productSection__buttonContainer}>
+            <button
+            onClick={() => setCurrentImageIdx(prev => prev - 1)}>Назад</button>
+            <button onClick={() => setCurrentImageIdx(prev => prev + 1)}>Вперед</button>
+      </div>
+      
     </section>
   );
 }
