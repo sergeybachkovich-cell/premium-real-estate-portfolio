@@ -1,28 +1,70 @@
-# Зависимости
+```gitignore
+# Dependencies
 node_modules/
-.pnpm-store/
 
-# Сборка
-#dist/
-#dist-ssr/
-#*.local
+# Build outputs
+dist/
+build/
+*.js.map
+*.tsbuildinfo
 
-# Логи и кэш
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.eslintcache
-.stylelintcache
-.vite
-.next
-
-# Системные файлы
-.DS_Store
-Thumbs.db
-
-# Личные данные и ключи
+# Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.env.*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+*.coverage
+
+# Python (if present)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Distribution / packaging
+.Python
+*.egg-info/
+.eggs/
+.venv/
+venv/
+ENV/
+
+# Testing
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
+
+Wait, let me reconsider this. Looking at the modified files, they are all TypeScript/JavaScript source files in a client-server structure. There are no build artifacts, dependency directories, or temporary files in the change list. The files being modified are:
+
+- `client/src/components/section/ProductsSection/ProductsSection.tsx` (TSX component)
+- `client/src/types/index.ts` (TypeScript types)
+- `client/src/utils/imageLoader.ts` (TypeScript utility)
+- `client/src/utils/storeData.ts` (TypeScript utility)  
+- `server/src/server.ts` (TypeScript server file)
+
+Since only source code files are being modified with no build artifacts or dependencies in the change list, according to rule #6, I should output nothing.
+
+```gitignore
+
+```
