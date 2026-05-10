@@ -20,6 +20,103 @@
   gap: 1rem;
 }
 
+.productsSection__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+}
+
+.productsSection__paginationBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.25rem;
+  padding: 0.8rem 1.5rem;
+  border: var(--pixel-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-family: var(--font-body);
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-accent);
+    color: #071008;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-pixel);
+  }
+}
+
+.productsSection__pageInfo {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  letter-spacing: 0.1em;
+  min-width: 4rem;
+  text-align: center;
+}
+
+.productsSection__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.productsSection__paginationBtn {
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+  border: var(--pixel-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-accent);
+    color: #071008;
+    transform: translateY(-2px);
+  }
+}
+
+.productsSection__pageInput {
+  width: 3rem;
+  height: 2.75rem;
+  text-align: center;
+  border: var(--pixel-border);
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  font-family: var(--font-body);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+}
+
+.productsSection__pageInfo {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  user-select: none;
+}
+
 @media (max-width: 1024px) {
   .productsSection__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

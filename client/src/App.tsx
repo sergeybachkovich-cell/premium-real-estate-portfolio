@@ -17,6 +17,7 @@ import { NumbersSection } from './components/section/NumbersSection/NumbersSecti
 import ProductsSection from './components/section/ProductsSection/ProductsSection';
 import StoreGallerySection from './components/section/StoreGallerySection/StoreGallerySection';
 import PrintingSection from './components/section/PrintingSection/PrintingSection';
+import StoreIntro from './components/section/StoreIntro/StoreIntro';
 
 // UI - Глобальные визуальные элементы и модалки
 import AssetModal from './components/AssetModal/AssetModal';
@@ -50,6 +51,9 @@ function App() {
       <main className={styles.app__main}>
         {/* Блок приветствия */}
         <Hero currentCity={currentCity} onCityChange={setCurrentCity} />
+        {/* Фотогалерея магазинов и городов */}
+        <StoreGallerySection currentCity={currentCity} />
+        <StoreIntro/>
 
         {/* Инфо-графика и цифры */}
         <NumbersSection />
@@ -64,8 +68,6 @@ function App() {
           onProductClick={setSelectedAsset}
         />
 
-        {/* Фотогалерея магазинов и городов */}
-        <StoreGallerySection currentCity={currentCity} />
       </main>
 
       <Footer />

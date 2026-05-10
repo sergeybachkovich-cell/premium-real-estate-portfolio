@@ -1,0 +1,105 @@
+.storeIntro {
+  padding: 5rem 0;
+
+  &__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    gap: 3rem;
+  }
+
+
+  &__directions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  &__directionCard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.75rem;
+    border: var(--pixel-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-pixel);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  &__directionTitle {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+  }
+
+  &__directionDesc {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__actionBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    padding: 0.8rem 1.5rem;
+    border: var(--pixel-border);
+    background: var(--color-surface-strong);
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin: 10px;
+
+    &:hover {
+      background: var(--color-accent);
+      color: #071008;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-pixel);
+    }
+  }
+
+  @media (max-width: 900px) {
+    &__directions {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    padding: 4rem 0;
+
+    &__container {
+      padding: 0 1rem;
+    }
+
+
+    &__actions {
+      flex-direction: column;
+    }
+
+    &__actionBtn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { City, Product } from '../../../types';
 import { products } from '../../../utils/storeData';
@@ -8,52 +8,73 @@ import ProductCard from '../../../ui/ProductCard/ProductCard';
 import SectionHeading from '../../../ui/SectionHeading/SectionHeading';
 import styles from './ProductsSection.module.scss';
 
-/**
- * Пропсы для компонента ProductsSection.
- */
+
 interface ProductsSectionProps {
-  /** Текущий выбранный город */
   currentCity: City;
-  /** Callback для изменения города */
   onCityChange: (city: City) => void;
-  /** Callback для клика по товару (открытие модального окна) */
   onProductClick: (product: Product) => void;
 }
 
-/**
- * Секция товаров магазина.
- * Отображает сетку товаров с фильтрацией по городу и возможностью переключения изображений.
- * 
- * @component
- * @example
- * ```tsx
- * <ProductsSection
- *   currentCity="gomel"
- *   onCityChange={setCity}
- *   onProductClick={handleProductClick}
- * />
- * ```
- */
 export default function ProductsSection({
   currentCity,
   onCityChange,
   onProductClick,
 }: ProductsSectionProps) {
-  /** ID товара, на котором находится курсор (для эффекта затемнения остальных) */
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-  /** Индекс текущего изображения в карусели товаров */
-  const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
-  // Фильтрация товаров по текущему городу
-  const filteredProducts = useMemo(
-    () => products.filter((product) => product.city === currentCity),
-    [currentCity],
-  );
+// --- STATE ---
+const [hoveredId, setHoveredId] = useState<number | null>(null);
+const [currentPage, setCurrentPage] = useState(1);
+const [pageInput, setPageInput] = useState('1');
+
+// --- СБРОС ПРИ СМЕНЕ ГОРОДА + СИНХРОНИЗАЦИЯ ---
+useEffect(() => {
+  setCurrentPage(1);
+  setPageInput('1');
+}, [currentCity]);
+
+useEffect(() => {
+  setPageInput(String(currentPage));
+}, [currentPage]);
+
+// --- ФИЛЬТРАЦИЯ ---
+const filteredProducts = useMemo(
+  () => products.filter((product) => product.city === currentCity),
+  [currentCity],
+);
+
+// --- ПАГИНАЦИЯ (derived state, вычисляем на лету!) ---
+const ITEMS_PER_PAGE = 6;
+const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
+const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+// --- КНОПКИ ---
+const handleNext = () => {
+  if (currentPage < totalPages) setCurrentPage((p) => p + 1);
+};
+const handlePrev = () => {
+  if (currentPage > 1) setCurrentPage((p) => p - 1);
+};
+
+// --- ВВОД НОМЕРА СТРАНИЦЫ ---
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Разрешаем только цифры
+  setPageInput(e.target.value.replace(/[^0-9]/g, ''));
+};
+
+const commitPageInput = () => {
+  const num = parseInt(pageInput, 10);
+  if (isNaN(num) || num < 1) {
+    setPageInput(String(currentPage));
+    return;
+  }
+  if (num > totalPages) setCurrentPage(totalPages);
+  else setCurrentPage(num);
+};
 
   return (
     <section id="products" className={styles.productsSection}>
       <div className={styles.productsSection__container}>
-        {/* Заголовок секции и переключатель городов */}
         <div className={styles.productsSection__header}>
           <SectionHeading
             eyebrow={siteContent.productsSection.eyebrow}
@@ -64,10 +85,9 @@ export default function ProductsSection({
           <CitySwitcher currentCity={currentCity} onCityChange={onCityChange} />
         </div>
 
-        {/* Сетка карточек товаров */}
         <div className={styles.productsSection__grid}>
           <AnimatePresence mode="popLayout">
-            {filteredProducts.map((product, index) => (
+            {paginatedProducts.map((product, index) => (
               <ProductCard
                 product={product}
                 index={index}
@@ -75,28 +95,50 @@ export default function ProductsSection({
                 onHover={setHoveredId}
                 onClick={() => onProductClick(product)}
                 key={product.id}
-                imageIdx={currentImageIdx}
+                imageIdx={0} // Пока показываем первое фото. Карусель внутри карточки можно добавить позже.
               />
             ))}
           </AnimatePresence>
         </div>
-      </div>
 
-      {/* Кнопки навигации для переключения изображений товаров */}
-      <div className={styles.productSection__buttonContainer}>
-        <button
-          onClick={() => setCurrentImageIdx(prev => prev - 1)}
-          aria-label="Предыдущее изображение"
-        >
-          Назад
-        </button>
-        <button
-          onClick={() => setCurrentImageIdx(prev => prev + 1)}
-          aria-label="Следующее изображение"
-        >
-          Вперед
-        </button>
-      </div>
+        {/* Пагинация: появляется только если товаров больше, чем лимит */}
+        {totalPages > 1 && (
+          <div className={styles.productsSection__pagination}>
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className={styles.productsSection__paginationBtn}
+            >
+              ← Назад
+            </button>
+
+            <input
+              type="text"
+              inputMode="numeric"
+              value={pageInput}
+              onChange={handleInputChange}
+              onBlur={commitPageInput}
+              onKeyDown={(e) => e.key === 'Enter' && commitPageInput()}
+              className={styles.productsSection__pageInput}
+              aria-label="Номер страницы"
+            />
+
+            <span className={styles.productsSection__pageInfo}>
+              / {totalPages}
+            </span>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className={styles.productsSection__paginationBtn}
+            >
+              Вперед →
+            </button>
+           </div>
+          )}
+     </div>
     </section>
   );
 }

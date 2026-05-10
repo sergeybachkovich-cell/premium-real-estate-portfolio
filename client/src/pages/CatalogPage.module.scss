@@ -1,0 +1,190 @@
+.catalogPage {
+  padding: 6rem 0 4rem;
+  min-height: 100vh;
+  background: var(--color-bg);
+
+  &__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  &__header {
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    margin: 0;
+    max-width: 600px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+
+  // --- BENTO GRID ---
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.25rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    position: relative;
+    padding: 1.75rem;
+    border: var(--pixel-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-pixel);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+
+    // Эффект при наведении
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      
+      .catalogPage__image {
+        transform: scale(1.05);
+      }
+    }
+
+    // --- ВАРИАНТЫ РАЗМЕРОВ ДЛЯ BENTO ---
+    
+    // Большая карточка (2x2 клетки) - для главного товара или акции
+    &--large {
+      grid-column: span 2;
+      grid-row: span 2;
+      
+      .catalogPage__cardTitle {
+        font-size: 2.5rem;
+      }
+    }
+
+    // Широкая карточка (2x1 клетка)
+    &--wide {
+      grid-column: span 2;
+    }
+
+    // Высокая карточка (1x2 клетки)
+    &--tall {
+      grid-row: span 2;
+    }
+  }
+
+  &__imageWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.15; // Легкий фон-паттерн
+    pointer-events: none;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+  }
+
+  &__cardTitle {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  &__cardDesc {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  &__price {
+    margin-top: auto;
+    font-weight: 700;
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  // --- КРУГЛАЯ КНОПКА (Floating Action Button) ---
+  // Можно добавить в конец сетки или сделать фиксированной
+  &__fab {
+    grid-column: span 1;
+    grid-row: span 1;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 2px solid var(--color-text);
+    background: var(--color-accent);
+    color: #071008;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(94, 255, 143, 0.4);
+
+    &:hover {
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 8px 20px rgba(94, 255, 143, 0.6);
+    }
+  }
+
+  /* Адаптив для формы заказа */
+  &__formWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}

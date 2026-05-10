@@ -23,11 +23,13 @@ export const siteContent = {
     ctaHref: '#contact',
   },
   hero: {
-    badge: 'ЛАВКА АВТОРСКИХ СУВЕНИРОВ',
-    titleTop: 'UNIQUE HANDMADE',
-    titleBottom: 'КРАФТОВЫЕ АРТЕФАКТЫ',
+    badge: 'ЛАВКА CУВЕНИРОВ & ИЗГОТОВЛЕНИЕ НА ЗАКАЗ & ПОЛИГРАФИКА',
+    titleTop: 'толькi Hand Made',
+    titleBottom: '  Сувениры и украшения \n Работы на заказ \nПолиграфика',
     description:
-      'Авторские сувениры ручной работы из натуральных материалов. Создано мастерами для вашего интерьера.',
+      `Авторские сувениры ручной работы из натуральных материалов. Создано мастерами для вашего интерьера.
+      \nНовая строка
+      `,
     primaryActionLabel: 'Смотреть товары',
     primaryActionHref: '#products',
     secondaryActionLabel: 'Фото магазина',

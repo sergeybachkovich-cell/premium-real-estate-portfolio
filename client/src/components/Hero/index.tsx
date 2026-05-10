@@ -7,6 +7,7 @@ import { products } from '../../utils/storeData';
 import { siteContent } from '../../config/contentConfig';
 import CitySwitcher from '../../ui/CitySwitcher/CitySwitcher';
 import styles from './Hero.module.scss';
+import { p } from 'framer-motion/client';
 
 interface HeroProps {
   currentCity: City;
