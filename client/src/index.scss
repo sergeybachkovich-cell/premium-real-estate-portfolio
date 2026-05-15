@@ -64,6 +64,17 @@
   box-sizing: border-box;
 }
 
+h1, h2, h3, 
+[class*="__title"], 
+[class*="__brandName"],
+[class*="__panelLabel"] {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 0.9;      
+  font-size: 1.2em; 
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -83,7 +94,9 @@ input,
 textarea,
 select {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 18px; 
+  font-weight: 500; 
+  line-height: 1.6;
 }
 
 button,

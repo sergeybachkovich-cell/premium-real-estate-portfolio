@@ -5,15 +5,14 @@ import { siteContent } from '@/config/contentConfig';
 import type { City } from '@/types';
 import VoxelBackground from '@/ui/VoxelBackground/VoxelBackground';
 import { Footer } from '@/components/layout/Footer';
+import { photos } from '@/utils/imageLoader'; // 👈 ИМПОРТ
 
 interface Props {
     currentCity: City;
 }
 
-// Константы
 const IMAGES_PER_PAGE = 6;
 
-// Тип для данных из конфига (все readonly из as const)
 type ConfigFeature = { readonly id: string; readonly label: string };
 type ConfigImage = { readonly id: string; readonly src: string; readonly alt: string };
 type ConfigService = {
@@ -30,7 +29,6 @@ type ConfigTab = {
     readonly services: readonly ConfigService[];
 };
 
-
 export default function PrintingSection({ currentCity }: Props) {
     const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
     const [visibleImagesCount, setVisibleImagesCount] = useState(IMAGES_PER_PAGE);
@@ -38,7 +36,19 @@ export default function PrintingSection({ currentCity }: Props) {
     const activeKey: City = currentCity || 'gomel';
     const data = siteContent.printingSection.tabs[activeKey] as unknown as ConfigTab;
 
-    // Вычисляем сообщение логики работы (msg накапливается)
+    // 👈 Функция для получения правильного пути к изображению
+    const getImagePath = (serviceId: string, imageIndex: number): string => {
+        const cityImages = activeKey === 'gomel' ? photos.gomel : photos.rechitsa;
+        
+        // Вычисляем глобальный индекс изображения
+        // Например, для service "documents" (второй) с imageIndex 2:
+        // это будет photo_Gomel (7).webp, (8).webp, (9).webp
+        const serviceIndex = data.services.findIndex(s => s.id === serviceId);
+        const globalIndex = serviceIndex * 6 + imageIndex;
+        
+        return cityImages[globalIndex] || '';
+    };
+
     const msg = useMemo(() => {
         let log = '';
         log += `Загружен раздел: ${data.mainTitle}. `;
@@ -76,7 +86,7 @@ export default function PrintingSection({ currentCity }: Props) {
             <VoxelBackground/>
             <div className={s.printingSection__container}>
                 
-                {/* ЛЕВАЯ КОЛОНКА: Заголовок + Описание */}
+                {/* ЛЕВАЯ КОЛОНКА */}
                 <div className={s.printingSection__info}>
                     <header className={s.printingSection__header}>
                         <span className={s.printingSection__eyebrow}>
@@ -92,7 +102,6 @@ export default function PrintingSection({ currentCity }: Props) {
                         )}
                     </header>
 
-                    {/* Описание активной услуги */}
                     <AnimatePresence mode="wait">
                         {activeService && (
                             <motion.div
@@ -114,7 +123,6 @@ export default function PrintingSection({ currentCity }: Props) {
                         )}
                     </AnimatePresence>
 
-                    {/* Кнопка скрытия */}
                     <AnimatePresence>
                         {activeServiceId && (
                             <motion.button
@@ -133,9 +141,8 @@ export default function PrintingSection({ currentCity }: Props) {
                     </AnimatePresence>
                 </div>
 
-                {/* ПРАВАЯ КОЛОНКА: Услуги + Галерея */}
+                {/* ПРАВАЯ КОЛОНКА */}
                 <div className={s.printingSection__content}>
-                    {/* Сетка услуг */}
                     <div className={s.printingSection__grid}>
                         {data.services.map((service: ConfigService) => (
                             <button
@@ -154,7 +161,6 @@ export default function PrintingSection({ currentCity }: Props) {
                         ))}
                     </div>
 
-                    {/* Галерея изображений */}
                     <AnimatePresence>
                         {activeService && activeService.images.length > 0 && (
                             <motion.div
@@ -167,24 +173,31 @@ export default function PrintingSection({ currentCity }: Props) {
                                 <div className={s.printingSection__photoGrid}>
                                     {activeService.images
                                         .slice(0, visibleImagesCount)
-                                        .map((img: ConfigImage, idx: number) => (
-                                            <motion.div
-                                                key={img.id}
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ delay: idx * 0.05 }}
-                                                className={s.printingSection__photoBlock}
-                                            >
-                                                <img 
-                                                    src={img.src} 
-                                                    alt={img.alt}
-                                                    loading="lazy"
-                                                />
-                                            </motion.div>
-                                        ))}
+                                        .map((img: ConfigImage, idx: number) => {
+                                            // 👈 Получаем правильный путь к изображению
+                                            const imagePath = getImagePath(activeService.id, idx);
+                                            
+                                            return (
+                                                <motion.div
+                                                    key={img.id}
+                                                    initial={{ opacity: 0, scale: 0.9 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ delay: idx * 0.05 }}
+                                                    className={s.printingSection__photoBlock}
+                                                >
+                                                    <img 
+                                                        src={imagePath}
+                                                        alt={img.alt}
+                                                        loading="lazy"
+                                                        onError={(e) => {
+                                                            console.error(`❌ Не загрузилось: ${imagePath}`);
+                                                        }}
+                                                    />
+                                                </motion.div>
+                                            );
+                                        })}
                                 </div>
 
-                                {/* Кнопка "Показать ещё" для Гомеля с большим количеством фото */}
                                 <AnimatePresence>
                                     {hasMoreImages && (
                                         <motion.button

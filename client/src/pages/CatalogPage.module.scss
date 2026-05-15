@@ -3,6 +3,32 @@
   min-height: 100vh;
   background: var(--color-bg);
 
+  &__backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid rgba(85, 255, 136, 0.3);
+    color: #55FF88;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(85, 255, 136, 0.1);
+    border-color: #55FF88;
+    box-shadow: 0 0 15px rgba(85, 255, 136, 0.3);
+    transform: translateX(-2px);
+  }
+  }
+
   &__container {
     max-width: var(--container-width);
     margin: 0 auto;

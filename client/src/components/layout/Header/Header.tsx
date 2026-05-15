@@ -10,10 +10,9 @@ import styles from './Header.module.scss';
 import ThemeToggle from '@/ui/ThemeToggle/ThemeToggle';
 import CitySwitcher from '@/ui/CitySwitcher/CitySwitcher';
 import { siteContent } from '@/config/contentConfig';
-
+import { Link } from 'react-router';
 // Types - Типизация
 import { City } from '@/types';
-
 /**
  * Пропсы для компонента Header.
  * @interface HeaderProps
@@ -59,9 +58,12 @@ export default function Header({ currentCity, onCityChange }: HeaderProps) {
           <ul className={styles.header__navList}>
             {siteContent.header.navigation.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className={styles.header__navLink}>
+                <Link to = {item.href} className={styles.header__navLink}>
                   {item.label}
-                </a>
+                </Link>
+                {/* <a href={item.href} className={styles.header__navLink}>
+                  
+                </a> */}
               </li>
             ))}
           </ul>

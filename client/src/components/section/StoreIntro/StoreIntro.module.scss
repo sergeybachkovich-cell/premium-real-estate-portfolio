@@ -46,12 +46,26 @@
   font-size: 0.95rem;
 }
 
+.storeIntro__actions {
+  display: flex;            /* Включаем флексбокс */
+  justify-content: center;  /* Центрируем кнопки по горизонтали */
+  gap: 20px;                /* !!! Это создаст нормальный зазор между кнопками */
+  margin-top: 30px;         /* Отступ от карточек сверху */
+  flex-wrap: wrap;          /* Чтобы на узких экранах они не вылезали за край, а переносились */
+}
+
 .storeIntro__actionBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 3rem;
-  padding: 0.5rem 1rem;
+  gap: 1.5rem;             /* Расстояние между кнопками */
+  margin-top: 3rem;  
+  /* ИСПРАВЛЕНИЕ: */
+  width: fit-content;    /* Кнопка подстраивается под текст */
+  min-width: 200px;      /* Минимальная ширина для солидности */
+  margin: 1.5rem auto 0; /* Центрируем кнопку (нужен display: flex у родителя) */
+  
   border: var(--pixel-border);
   background: var(--color-surface);
   color: var(--color-text);
@@ -59,11 +73,12 @@
   letter-spacing: 0.08em;
   font-weight: 700;
   text-decoration: none;
-  width: 100%;
-  transition: background 0.2s ease;
-  margin-top: 20px;
+  transition: all 0.2s ease;
+
   &:hover {
-    background: var(--color-border);
+    background: var(--color-accent);
+    color: #000;
+    transform: translateY(-2px);
   }
 }
 

@@ -15,12 +15,12 @@ export const siteContent = {
     brandName: 'толькi HAND MADE',
     brandTagline: 'HANDMADE STORE',
     navigation: [
-      { label: 'Сувениры', href: '#products' },
-      { label: 'Магазин', href: '#store-gallery' },
-      { label: 'Контакты', href: '#contact' },
+      { label: 'Сувениры', href: '/souvenirs' },
+      { label: 'Заказать товар', href: '/custom' },
+      { label: 'Контакты', href: '#hero' },
     ],
     ctaLabel: 'Индивидуальный заказ',
-    ctaHref: '#contact',
+    ctaHref: '/custom',
   },
   hero: {
     badge: 'ЛАВКА CУВЕНИРОВ & ИЗГОТОВЛЕНИЕ НА ЗАКАЗ & ПОЛИГРАФИКА',
@@ -95,7 +95,7 @@ export const siteContent = {
         desc: 'Даже повторяемые модели сохраняют характер ручной работы и отличаются мелкими деталями.',
       },
     ],
-    chip: 'Pixel Craft',
+    chip: 'Hand Made',
     hint: 'Сделано в мастерской',
   },
   productsSection: {
@@ -122,7 +122,7 @@ export const siteContent = {
     },
     closeLabel: 'Закрыть',
     inquireLabel: 'Заказать похожее',
-    inquireHref: '#contact',
+    inquireHref: '#hero',
   },
 
   footer: {

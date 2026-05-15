@@ -22,7 +22,7 @@ export const storeDirections: readonly StoreDirection[] = [
     title: 'Готовые сувениры',
     description: 'Кружки, футболки, стикеры, магниты и аксессуары — всё в наличии. Выберите готовый дизайн или возьмите чистый холст для творчества.',
     btnText: 'Открыть каталог',
-    href: '#products',
+    href: '/souvenirs',
   },
   {
     id: 'custom',
