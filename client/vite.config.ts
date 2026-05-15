@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), viteSingleFile()],
-  base: '/premium-real-estate-portfolio/',
+  base: '/tolkiHandMade/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
