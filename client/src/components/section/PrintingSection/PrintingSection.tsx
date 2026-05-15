@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import s from './PrintingSection.module.scss';
 import { siteContent } from '@/config/contentConfig';
 import type { City } from '@/types';
+import VoxelBackground from '@/ui/VoxelBackground/VoxelBackground';
+import { Footer } from '@/components/layout/Footer';
 
 interface Props {
     currentCity: City;
@@ -71,6 +73,7 @@ export default function PrintingSection({ currentCity }: Props) {
 
     return (
         <section className={s.printingSection}>
+            <VoxelBackground/>
             <div className={s.printingSection__container}>
                 
                 {/* ЛЕВАЯ КОЛОНКА: Заголовок + Описание */}
@@ -201,6 +204,7 @@ export default function PrintingSection({ currentCity }: Props) {
                 </div>
 
             </div>
+            <Footer/>
         </section>
     );
 }

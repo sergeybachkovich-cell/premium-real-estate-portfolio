@@ -15,6 +15,7 @@ import styles from './Footer.module.scss';
  * * @see {@link contactConfig} — здесь меняются телефон, почта и адрес.
  * @see {@link siteContent} — здесь меняется заголовок и описание подвала.
  */
+
 export function Footer() {
   /** @constant {number} Текущий год для динамического отображения копирайта */
   const currentYear = new Date().getFullYear();
@@ -51,7 +52,7 @@ export function Footer() {
 
         {/* --- НИЖНЯЯ ПАНЕЛЬ: Копирайт и доп. текст --- */}
         <div className={styles.footer__bottom}>
-          <span>© {currentYear} Pixel Craft {siteContent.footer.rights}</span>
+          <span>© {currentYear} {siteContent.hero.titleTop} {siteContent.footer.rights}</span>
           <span>{siteContent.footer.caption}</span>
         </div>
 

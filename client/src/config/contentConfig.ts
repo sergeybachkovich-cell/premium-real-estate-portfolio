@@ -1,6 +1,6 @@
 export const siteContent = {
   common: {
-    brandMark: 'PC',
+    brandMark: 'HM',
     cityLabels: {
       gomel: 'Гомель',
       rechitsa: 'Речица',
@@ -15,7 +15,7 @@ export const siteContent = {
     brandName: 'толькi HAND MADE',
     brandTagline: 'HANDMADE STORE',
     navigation: [
-      { label: 'Артефакты', href: '#products' },
+      { label: 'Сувениры', href: '#products' },
       { label: 'Магазин', href: '#store-gallery' },
       { label: 'Контакты', href: '#contact' },
     ],
@@ -27,9 +27,7 @@ export const siteContent = {
     titleTop: 'толькi Hand Made',
     titleBottom: '  Сувениры и украшения \n Работы на заказ \nПолиграфика',
     description:
-      `Авторские сувениры ручной работы из натуральных материалов. Создано мастерами для вашего интерьера.
-      \nНовая строка
-      `,
+      `Авторские сувениры ручной работы из натуральных материалов. Создано мастерами для вашего интерьера.`,
     primaryActionLabel: 'Смотреть товары',
     primaryActionHref: '#products',
     secondaryActionLabel: 'Фото магазина',
@@ -42,10 +40,10 @@ export const siteContent = {
       'Свяжитесь с нами, чтобы подобрать подарок, декор или обсудить изделие по вашему эскизу.',
     servicesTitle: 'Что мы создаём',
     services: [
-      'Настенные панно и таблички',
-      'Пиксельные сувениры для интерьера',
-      'Деревянные шкатулки и органайзеры',
-      'Персональные подарки по эскизу',
+      'Сувениры',
+      'Кошельки и сумки',
+      'Картины',
+      'Браслеты',
     ],
     form: {
       title: 'Оставить заявку',
@@ -113,7 +111,7 @@ export const siteContent = {
     eyebrow: 'МАГАЗИН',
     title: 'ФОТО ЛОКАЦИИ',
     description:
-      'Отдельно показываем интерьер, витрины и атмосферу магазина, чтобы товары и пространство читались разными слоями.',
+      'Отдельно показываем интерьер, витрины и атмосферу магазина.',
   },
   modal: {
     eyebrow: 'ДЕТАЛИ ИЗДЕЛИЯ',

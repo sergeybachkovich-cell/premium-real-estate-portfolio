@@ -31,10 +31,10 @@ const InfoCard = memo(
 
         <div className={styles.numbersSection__cardFooter}>
           <span className={styles.numbersSection__cardBadge}>
-            {siteContent.numbersSection.buttonText}
+            {siteContent.numbersSection.chip}
           </span>
           <span className={styles.numbersSection__cardHint}>
-            {siteContent.numbersSection.scrollLabel}
+            {siteContent.numbersSection.hint}
           </span>
         </div>
       </motion.article>

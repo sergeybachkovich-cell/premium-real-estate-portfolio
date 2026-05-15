@@ -2,15 +2,12 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import App from '../App'; // 
 
-const SouvenirsPage = lazy(() => 
-    import ('../pages/SouvenirsPage').then((m)=> ({default: m.SouvenirsPage}))
-);
-
+const SouvenirsPage = lazy(() => import ('../pages/SouvenirsPage').then((m) => ({default: m.SouvenirsPage})));
 const CustomPage = lazy(() => import ('../pages/CustomPage').then((m)=> ({default: m.CustomPage}))
 );
 
-const PrintingPage = lazy(() => import ('../pages/PrintingPage').then((m)=> ({default: m.PrintingPage}))
-);
+const PrintingPage = lazy(() => import ('../pages/PrintingPage').then((m)=> ({default: m.PrintingPage})));
+
 
 const PageFallback = () => (
   <div style={{ display: 'grid', placeItems: 'center', minHeight: '60vh' }}>
@@ -24,8 +21,8 @@ export const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path='/souvenirs' element={<SouvenirsPage />} />
-        <Route path='/custom' element={<SouvenirsPage />} />
-        <Route path='/printing' element={<SouvenirsPage />} />
+        <Route path='/custom' element={<CustomPage/>} />
+        <Route path='/printing' element={<PrintingPage />} />
         <Route path='*' element={<div>404</div>} />
       </Routes>
     </Suspense>

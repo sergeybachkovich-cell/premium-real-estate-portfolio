@@ -1,17 +1,20 @@
 .hero {
   position: relative;
   padding: 4rem 0 2rem;
+  width: 100%;
+  overflow: hidden; /* Защита от горизонтального скролла */
 }
 
 .hero__container {
   position: relative;
   z-index: 1;
-  max-width: var(--container-width);
+  max-width: var(--container-width, 1200px);
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  gap: 1.5rem;
+  /* Использование фиксированных долей вместо гибких fr предотвратит сдавливание */
+  grid-template-columns: 1.2fr 0.8fr; 
+  gap: 2rem;
 }
 
 .hero__content,
@@ -25,6 +28,9 @@
 
 .hero__content {
   padding: 1.5rem;
+  min-width: 0; /* Важно: запрещает контенту распирать ячейку грида */
+  display: flex;
+  flex-direction: column;
 }
 
 .hero__badge,
@@ -43,13 +49,20 @@
 }
 
 .hero__title {
-  display: grid;
-  gap: 0.35rem;
-  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column; /* Перенос строк спасает от наложений */
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
   font-family: var(--font-heading);
-  font-size: clamp(3.6rem, 10vw, 7.6rem);
-  line-height: 0.82;
+  /* Уменьшены максимальные границы clamp, чтобы шрифт оставался читаемым */
+  font-size: clamp(2.2rem, 6vw, 4.2rem); 
+  line-height: 1.1; /* Увеличено с 0.82 для предотвращения слипания букв */
   letter-spacing: 0.05em;
+  word-break: break-word;
+
+  span {
+    display: block;
+  }
 }
 
 .hero__description {
@@ -57,6 +70,7 @@
   max-width: 42rem;
   color: var(--color-text-muted);
   font-size: 1rem;
+  line-height: 1.5;
 }
 
 .hero__actions {
@@ -79,6 +93,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .hero__actionPrimary,
@@ -89,6 +104,7 @@
 
 .hero__actionSecondary {
   background: var(--color-surface);
+  color: inherit;
 }
 
 .hero__panels {
@@ -122,6 +138,8 @@
   padding: 0.8rem;
   border: 2px solid var(--color-border);
   background: var(--color-surface);
+  text-decoration: none;
+  color: inherit;
 }
 
 .hero__contact span,
@@ -159,8 +177,10 @@
 }
 
 .hero__aside {
-  display: grid;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
 }
 
 .hero__stats {
@@ -170,8 +190,8 @@
 
 .hero__statsValue {
   font-family: var(--font-heading);
-  font-size: clamp(4rem, 10vw, 6.5rem);
-  line-height: 0.8;
+  font-size: clamp(3rem, 8vw, 5rem); /* Сбалансирован размер счетчика */
+  line-height: 1;
   color: var(--color-accent);
   text-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 32%, transparent);
 }
@@ -215,9 +235,11 @@
   color: #ff7f7f;
 }
 
-@media (max-width: 1080px) {
+/* Медиа-запросы */
+@media (max-width: 1120px) {
   .hero__container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Переход в одну колонку на планшетах */
+    gap: 1.5rem;
   }
 }
 

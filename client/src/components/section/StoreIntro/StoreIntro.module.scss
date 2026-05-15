@@ -1,105 +1,76 @@
 .storeIntro {
-  padding: 5rem 0;
+  padding: 4rem 0;
+  width: 100%;
+}
 
-  &__container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    gap: 3rem;
+.storeIntro__container {
+  max-width: var(--container-width, 1200px);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.storeIntro__directions {
+  display: grid;
+  /* Три колонки на десктопе, которые автоматически выравнивают высоту карточек */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.storeIntro__directionCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Распределяет контент и кнопку по краям */
+  padding: 1.5rem;
+  border: var(--pixel-border);
+  background: color-mix(in srgb, var(--color-surface-strong) 96%, transparent);
+  box-shadow: var(--shadow-pixel);
+  height: 100%; /* Занимает всю высоту грид-строки */
+}
+
+.storeIntro__cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem; /* Зазор между текстом описания и нижней кнопкой */
+}
+
+.storeIntro__directionTitle {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-accent);
+}
+
+.storeIntro__directionDesc {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.storeIntro__actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.5rem 1rem;
+  border: var(--pixel-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-decoration: none;
+  width: 100%;
+  transition: background 0.2s ease;
+  margin-top: 20px;
+  &:hover {
+    background: var(--color-border);
   }
+}
 
-
-  &__directions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-
-  &__directionCard {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.75rem;
-    border: var(--pixel-border);
-    background: var(--color-surface);
-    box-shadow: var(--shadow-pixel);
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: translateY(-4px);
-    }
-  }
-
-  &__directionTitle {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(1.8rem, 3vw, 2.4rem);
-    line-height: 0.9;
-    letter-spacing: 0.04em;
-    color: var(--color-accent);
-  }
-
-  &__directionDesc {
-    margin: 0;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    font-size: 0.95rem;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  &__actionBtn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.25rem;
-    padding: 0.8rem 1.5rem;
-    border: var(--pixel-border);
-    background: var(--color-surface-strong);
-    color: var(--color-text);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    margin: 10px;
-
-    &:hover {
-      background: var(--color-accent);
-      color: #071008;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-pixel);
-    }
-  }
-
-  @media (max-width: 900px) {
-    &__directions {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 720px) {
-    padding: 4rem 0;
-
-    &__container {
-      padding: 0 1rem;
-    }
-
-
-    &__actions {
-      flex-direction: column;
-    }
-
-    &__actionBtn {
-      width: 100%;
-      justify-content: center;
-    }
+/* Адаптивность под планшеты и мобильные */
+@media (max-width: 960px) {
+  .storeIntro__directions {
+    grid-template-columns: 1fr; /* Перестраиваем карточки в вертикальный стек */
+    gap: 1.5rem;
   }
 }

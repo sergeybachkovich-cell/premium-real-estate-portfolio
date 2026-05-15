@@ -12,21 +12,17 @@ import Header from './components/layout/Header/Header';
 import { Footer } from './components/layout/Footer';
 
 // Sections - основные блоки контента
-import { Hero } from './components/Hero';
+import { Hero } from './components/Hero/Hero';
 import { NumbersSection } from './components/section/NumbersSection/NumbersSection';
-import ProductsSection from './components/section/ProductsSection/ProductsSection';
 import StoreGallerySection from './components/section/StoreGallerySection/StoreGallerySection';
-import PrintingSection from './components/section/PrintingSection/PrintingSection';
 import StoreIntro from './components/section/StoreIntro/StoreIntro';
 
 // UI - Глобальные визуальные элементы и модалки
-import AssetModal from './components/AssetModal/AssetModal';
 import MagneticCursor from './ui/MagneticCursor/MagneticCursor';
 import VoxelBackground from './ui/VoxelBackground/VoxelBackground';
 
 // Types - типизация
-import { City, Product } from './types';
-// import { feFlood } from 'framer-motion/client';
+import { City } from './types';
 
 /**
 * Основной компонент приложения
@@ -35,7 +31,6 @@ import { City, Product } from './types';
 
 function App() {
   /** @state Выбранный товар для отображения в модальном окне*/
-  const [selectedAsset, setSelectedAsset] = useState<Product | null>(null);
   /** @state Текущий активный регион (Gomel | Rechitsa | Sublimation) */
   const [currentCity, setCurrentCity] = useState<City>('gomel');
 
@@ -57,29 +52,10 @@ function App() {
 
         {/* Инфо-графика и цифры */}
         <NumbersSection />
-
-        {/* Услуги печати */}
-        <PrintingSection currentCity={currentCity}/>
-
-        {/* Основной каталог товаров (слайдеры и карточки)*/}
-        <ProductsSection
-          currentCity={currentCity}
-          onCityChange={setCurrentCity}
-          onProductClick={setSelectedAsset}
-        />
-
       </main>
-
       <Footer />
-
-      {/* Модальное окно просмотра деталей товара */}
-      <AssetModal 
-        asset={selectedAsset} 
-        onClose={() => setSelectedAsset(null)} 
-      />
-    </div>
+      </div>
   );
-
 
 }
 
