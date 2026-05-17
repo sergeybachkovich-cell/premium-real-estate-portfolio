@@ -20,10 +20,10 @@ export const AppRoutes = () => {
     <Suspense fallback={<PageFallback />}>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path='/souvenirs' element={<SouvenirsPage />} />
-        <Route path='/custom' element={<CustomPage/>} />
-        <Route path='/printing' element={<PrintingPage />} />
-        <Route path='*' element={<div>404</div>} />
+        <Route path="/souvenirs" element={<SouvenirsPage />} />
+        <Route path="/custom" element={<CustomPage />} />
+        <Route path="/printing" element={<PrintingPage />} />
+        <Route path="*" element={<div>Страница не найдена (404)</div>} />
       </Routes>
     </Suspense>
   );
