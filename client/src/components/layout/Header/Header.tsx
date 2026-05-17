@@ -1,45 +1,30 @@
 /**
  * @file Header.tsx
- * @description Верхняя панель навигации (Шапка). 
- * Содержит логотип, навигационные ссылки, переключатель темы и выбор города.
+ * @description Верхняя панель навигации (Шапка)
  */
 
 import styles from './Header.module.scss';
 
-// UI - Глобальные визуальные элементы и модалки
 import ThemeToggle from '@/ui/ThemeToggle/ThemeToggle';
 import CitySwitcher from '@/ui/CitySwitcher/CitySwitcher';
 import { siteContent } from '@/config/contentConfig';
-import { Link } from 'react-router';
-// Types - Типизация
+import { Link, useLocation } from 'react-router';
 import { City } from '@/types';
-/**
- * Пропсы для компонента Header.
- * @interface HeaderProps
- * @property {City} currentCity - Текущий выбранный город для фильтрации контента.
- * @property {(city: City) => void} onCityChange - Колбэк для обновления глобального состояния города.
- */
+
 interface HeaderProps {
   currentCity: City;
   onCityChange: (city: City) => void;
 }
 
-
-/**
- * Главный компонент шапки сайта.
- * * @component
- * @example
- * <Header currentCity="gomel" onCityChange={(city) => setCity(city)} />
- * * @see {@link CitySwitcher} — используется для смены локации.
- * @see {@link siteContent} — источник текстовых данных для ссылок и брендинга.
- */
 export default function Header({ currentCity, onCityChange }: HeaderProps) {
+  const location = useLocation();
+
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-
-        {/* --- ЛОГОТИП И БРЕНДИНГ --- */}
-        <a href="#hero" className={styles.header__brand}>
+        
+        {/* ЛОГОТИП */}
+        <Link to="/" className={styles.header__brand}>
           <span className={styles.header__brandBadge}>
             {siteContent.common.brandMark}
           </span>
@@ -51,36 +36,40 @@ export default function Header({ currentCity, onCityChange }: HeaderProps) {
               {siteContent.header.brandTagline}
             </span>
           </span>
-        </a>
+        </Link>
 
-        {/* --- ГЛАВНАЯ НАВИГАЦИЯ --- */}
-        <nav className={styles.header__nav}>
+        {/* НАВИГАЦИЯ */}
+        {/* <nav className={styles.header__nav} aria-label="Главная навигация">
           <ul className={styles.header__navList}>
-            {siteContent.header.navigation.map((item) => (
-              <li key={item.href}>
-                <Link to = {item.href} className={styles.header__navLink}>
-                  {item.label}
-                </Link>
-                {/* <a href={item.href} className={styles.header__navLink}>
-                  
-                </a> */}
-              </li>
-            ))}
+            {siteContent.header.navigation.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
+                <li key={item.href} className={styles.header__navItem}>
+                  <Link 
+                    to={item.href} 
+                    className={`${styles.header__navLink} ${isActive ? styles.header__navLinkActive : ''}`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-        </nav>
+        </nav> */}
 
-        {/* --- ПАНЕЛЬ ДЕЙСТВИЙ (Controls) --- */}
+        {/* ДЕЙСТВИЯ */}
         <div className={styles.header__actions}>
           <ThemeToggle />
+          <CitySwitcher 
+            currentCity={currentCity} 
+            onCityChange={onCityChange} 
+          />
+          <Link to='/custom' className = {styles.header__button}>
+              {siteContent.header.ctaLabel}
 
-          {/* Выбор города: передаем стейт и обработчик из App.tsx */}
-          <CitySwitcher currentCity={currentCity} onCityChange={onCityChange} />
-
-          {/* Кнопка целевого действия (CTA) */}
-          <a href={siteContent.header.ctaHref} className={styles.header__button}>
-            {siteContent.header.ctaLabel}
-          </a>
+          </Link>
         </div>
+        
       </div>
     </header>
   );

@@ -1,8 +1,8 @@
 export const contactConfig = {
   phone: '+375 (29) 555-84-44',
   phoneHref: 'tel:+375295558444',
-  email: 'hello@pixelcraft.by',
-  emailHref: 'mailto:hello@pixelcraft.by',
+  email: 'handmade@gmail.com',
+  emailHref: 'mailto:handmade@gmail.com',
   address: 'Гомель, Беларусь',
   schedule: 'Пн-Пт · 09:00-18:00',
   links: [

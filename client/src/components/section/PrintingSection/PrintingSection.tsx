@@ -4,7 +4,7 @@ import s from './PrintingSection.module.scss';
 import { siteContent } from '@/config/contentConfig';
 import type { City } from '@/types';
 import VoxelBackground from '@/ui/VoxelBackground/VoxelBackground';
-import { Footer } from '@/components/layout/Footer';
+import { Footer } from '@/components/layout/Footer/Footer';
 import { photos } from '@/utils/imageLoader'; // 👈 ИМПОРТ
 
 interface Props {

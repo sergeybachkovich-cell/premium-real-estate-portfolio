@@ -9,7 +9,7 @@ import styles from './App.module.scss';
 
 // Layout - Каркас приложения
 import Header from './components/layout/Header/Header';
-import { Footer } from './components/layout/Footer';
+import { Footer } from './components/layout/Footer/Footer';
 
 // Sections - основные блоки контента
 import { Hero } from './components/Hero/Hero';

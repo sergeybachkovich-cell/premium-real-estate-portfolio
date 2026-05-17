@@ -1,122 +1,278 @@
+// Header.module.scss
+
 .header {
   position: sticky;
   top: 0;
-  z-index: 40;
-  backdrop-filter: blur(18px);
-  background: color-mix(in srgb, var(--color-bg) 84%, transparent);
+  z-index: 100;
+  width: 100%;
+  
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  
   border-bottom: 1px solid var(--color-border);
+  transition: border-color var(--transition-normal);
 }
 
 .header__container {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 1rem 2rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 1.5rem;
+  padding: var(--space-4) var(--space-5);
+  
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  
+  flex-wrap: nowrap;
+  
+  @media (max-width: 1150px) {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-3);
+  }
 }
 
 .header__brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  
+  &:hover {
+    .header__brandBadge {
+      transform: rotate(-3deg) scale(1.05);
+    }
+    
+    .header__brandName {
+      text-shadow: 0 0 20px var(--color-accent-glow);
+    }
+  }
 }
 
 .header__brandBadge {
-  width: 3rem;
-  height: 3rem;
-  display: inline-flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
   align-items: center;
   justify-content: center;
+  
   border: var(--pixel-border);
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-pixel);
+  
   font-family: var(--font-heading);
-  font-size: 1.7rem;
-  letter-spacing: 0.08em;
+  font-size: 2rem;
+  color: var(--color-accent);
+  
+  transition: transform var(--transition-normal);
 }
 
 .header__brandText {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  line-height: 1;
 }
 
 .header__brandName {
   font-family: var(--font-heading);
-  font-size: 2rem;
-  line-height: 0.88;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
   letter-spacing: 0.08em;
+  line-height: 0.9;
+  color: var(--color-accent);
+  transition: text-shadow var(--transition-normal);
 }
 
 .header__brandTagline {
-  color: var(--color-text-soft);
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
+  color: var(--color-text-soft);
 }
 
 .header__nav {
-  justify-self: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0; // Позволяет контейнеру сжиматься без поломки layout
+  
+  // Скрываем навигацию РАНЬШЕ, чтобы освободить место для кнопки
+  @media (max-width: 1100px) {
+    display: none;
+  }
 }
 
 .header__navList {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  gap: var(--space-6);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+.header__navItem {
+  // Контейнер для элемента навигации
+}
+
 .header__navLink {
-  font-size: 0.85rem;
+  position: relative;
+  font-size: var(--text-sm);
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-soft);
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  padding: var(--space-2) 0;
+  transition: color var(--transition-fast);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: width var(--transition-normal);
+  }
+  
+  &:hover,
+  &.header__navLinkActive {
+    color: var(--color-accent);
+    
+    &::after {
+      width: 100%;
+    }
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
 }
 
 .header__actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
+  flex-shrink: 0; //  Запрещаем сжатие блока с кнопками
+  
+  @media (max-width: 1150px) {
+    gap: var(--space-2);
+  }
 }
 
 .header__button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 3rem;
-  padding: 0.8rem 1.2rem;
+  
+  min-height: 44px;
+  padding: var(--space-3) var(--space-5);
+  
   border: var(--pixel-border);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 82%, white 10%), var(--color-accent));
-  color: #071008;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-accent) 90%, white 5%),
+    var(--color-accent)
+  );
+  color: var(--color-text-inverse);
   box-shadow: var(--shadow-pixel);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  
+  white-space: nowrap; // Запрет переноса текста
+  flex-shrink: 0;      // Запрет сжатия кнопки flex-контейнером
+  cursor: pointer;
+  transition: 
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+  
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 rgba(71, 201, 125, 0.3);
+    background: var(--color-accent-strong);
+  }
+  
+  &:active {
+    transform: translate(0, 0);
+    box-shadow: var(--shadow-pixel);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  
+  //  Адаптивное уменьшение кнопки на средних экранах
+  @media (max-width: 1150px) {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-xs);
+    min-height: 40px;
+  }
+  
+  // 📱 На мобильных кнопка на всю ширину
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-4);
+  }
 }
 
-@media (max-width: 1180px) {
-  .header__container {
-    grid-template-columns: auto auto;
-  }
-
-  .header__nav {
+// -----------------------------------------------------------------------------
+// АДАПТИВНАЯ ВЕРСТКА КОНТЕЙНЕРА
+// -----------------------------------------------------------------------------
+@media (max-width: 1024px) {
+  .header__brandTagline {
     display: none;
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .header__container {
-    padding: 1rem;
-    grid-template-columns: 1fr;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
   }
-
-  .header__actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .header__button {
+  
+  .header__brand {
     width: 100%;
+    justify-content: center;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .header__brandBadge {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.6rem;
+  }
+  
+  .header__brandName {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+  }
+  
+  .header__actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__container {
+    padding: var(--space-3);
+  }
+  
+  .header__brandBadge {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.4rem;
   }
 }

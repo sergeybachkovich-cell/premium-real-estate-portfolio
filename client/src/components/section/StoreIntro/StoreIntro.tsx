@@ -1,18 +1,11 @@
 import styles from './StoreIntro.module.scss';
-// Убедись, что путь совпадает с твоей структурой. В Hero/Footer он обычно такой:
-import { contactConfig } from '../../../config/contactConfig';
 import { Link } from 'react-router';
 
 export interface StoreDirection {
-  /** Уникальный идентификатор направления */
   id: 'souvenirs' | 'custom' | 'printing';
-  /** Заголовок карточки */
   title: string;
-  /** Краткое описание услуги */
   description: string;
-  /** Текст на кнопке */
   btnText: string;
-  /** Якорь или роут для перехода */
   href: string;
 }
 
@@ -29,14 +22,14 @@ export const storeDirections: readonly StoreDirection[] = [
     title: 'Изготовление под заказ',
     description: 'Нанесём ваш логотип, фото или авторский арт на любой носитель. От одной штуки до корпоративного тиража с предпросмотром.',
     btnText: 'Оформить заказ',
-    href: '#custom-order',
+    href: '/custom',
   },
   {
     id: 'printing',
     title: 'Печать и полиграфия',
     description: 'Цветная и ч/б печать, ксерокс, сканирование, ламинирование и сублимационные фото. Быстро, чётко, по доступным ценам.',
     btnText: 'Услуги печати',
-    href: '#printing',
+    href: '/printing',
   },
 ] as const;
 
@@ -45,22 +38,36 @@ export default function StoreIntro() {
     <section id="store-intro" className={styles.storeIntro}>
       <div className={styles.storeIntro__container}>
 
-        {/* Описание направлений */}
-        <div className={styles.storeIntro__directions}>
-          {storeDirections.map(({ id, title, description }) => (
-            <article key={id} className={styles.storeIntro__directionCard}>
-              <h3 className={styles.storeIntro__directionTitle}>{title}</h3>
-              <p className={styles.storeIntro__directionDesc}>{description}</p>
-            </article>
+        {/* Сетка карточек + кнопки под ними */}
+        <div className={styles.storeIntro__grid}>
+          {storeDirections.map(({ id, title, description, btnText, href }) => (
+            <div key={id} className={styles.storeIntro__column}>
+              
+              {/* Карточка */}
+              <article className={styles.storeIntro__directionCard}>
+                <h3 className={styles.storeIntro__directionTitle}>{title}</h3>
+                <p className={styles.storeIntro__directionDesc}>{description}</p>
+              </article>
+
+              {/* Кнопка под карточкой — видна только на десктопе */}
+              <Link 
+                to={href} 
+                className={`${styles.storeIntro__actionBtn} ${styles.storeIntro__desktopBtn}`}
+              >
+                {btnText}
+              </Link>
+
+              {/* Кнопка внутри карточки — видна только на мобильных */}
+              <Link 
+                to={href} 
+                className={`${styles.storeIntro__actionBtn} ${styles.storeIntro__mobileBtn}`}
+              >
+                {btnText}
+              </Link>
+
+            </div>
           ))}
         </div>
-
-        {/* Кнопки навигации */}
-        <nav className={styles.storeIntro__actions}>
-            <Link to="/souvenirs" className={styles.storeIntro__actionBtn}>Открыть каталог</Link>
-            <Link to="/custom" className={styles.storeIntro__actionBtn}>Оформить заказ</Link>
-            <Link to="/printing" className={styles.storeIntro__actionBtn}>Услуги печати</Link>
-        </nav>
 
       </div>
     </section>
